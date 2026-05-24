@@ -1,3 +1,6 @@
-fn main() {
-    println!("Hello, world!");
+mod db;
+
+fn main()
+{
+	println!("Hello, world!");
 }
