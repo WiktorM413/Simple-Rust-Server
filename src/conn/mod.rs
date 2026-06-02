@@ -26,4 +26,9 @@ impl ConnManager
 
 		ConnManager{app, listener}
 	}
+
+	pub async fn serve(self)
+	{
+		axum::serve(self.listener, self.app.clone().into_make_service()).await.unwrap();
+	}
 }
