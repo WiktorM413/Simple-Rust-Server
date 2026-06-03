@@ -1,9 +1,7 @@
-use axum::{Router, routing::{get, post}};
-use sqlx::{Pool, Sqlite};
+use axum::{Router};
 use tokio::net::TcpListener;
 
-
-use crate::{db, routeType::RouteType, routes::users::{CreateUser, GetUsers}};
+use crate::{db, routeType::RouteType};
 
 pub struct ConnManager
 {
