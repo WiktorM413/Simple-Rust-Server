@@ -1,22 +1,24 @@
-use axum::{Router, routing::{get, post}};
+use axum::{routing::{get, post}};
 
-use crate::routes::users::{CreateUser, GetUsers};
+use crate::{conn::ConnManager, routeType::RouteType, routes::users::{CreateUser, GetUsers}};
 
 mod db;
 mod models;
 mod routes;
+mod conn;
+mod routeType;
 
 #[tokio::main]
 async fn main()
 {
-	let pool = db::ConnectDb().await;
-
-	let app: Router = Router::new()
-		.route("/users",        get(GetUsers))
-		.route("/users/create", post(CreateUser))
-		.with_state(pool);
-
-	let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
-
-	axum::serve(listener, app).await.unwrap();
+	dotenvy::dotenv().ok();
+		
+	let routes: Vec<RouteType> = vec![
+		RouteType::new("/users",        get(GetUsers)),
+		RouteType::new("/users/create", post(CreateUser))
+	];
+	
+	let conn = ConnManager::connect(routes).await;
+	
+	conn.serve().await;
 }
