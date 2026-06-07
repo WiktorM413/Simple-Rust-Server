@@ -1,12 +1,12 @@
 use axum::{routing::{get, post}};
 
-use crate::{conn::ConnManager, routeType::RouteType, routes::users::{CreateUser, GetUsers}};
+use crate::{conn::ConnManager, routeManager::routeType::RouteType, routes::users::{CreateUser, GetUsers}};
 
 mod db;
 mod models;
 mod routes;
 mod conn;
-mod routeType;
+mod routeManager;
 
 #[tokio::main]
 async fn main()
