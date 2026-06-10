@@ -2,12 +2,14 @@ use std::str::FromStr;
 
 use sqlx::{SqlitePool, sqlite::SqliteConnectOptions};
 
+use crate::config;
+
 pub async fn ConnectDb() -> SqlitePool
 {
-	let url = std::env::var("DATABASE_URL").expect("DATABASE_URL not set");
+	let config = config::get();
 
 	
-	let options = SqliteConnectOptions::from_str(&url).unwrap().create_if_missing(true);
+	let options = SqliteConnectOptions::from_str(&config.databaseUrl).unwrap().create_if_missing(true);
 
 	SqlitePool::connect_with(options).await.expect("Failed to connect to db")
 }
