@@ -13,7 +13,7 @@ mod config;
 async fn main()
 {
 	dotenvy::dotenv().ok();
-	let config = config::init().expect("Failed to load config");
+	let config = config::fromEnv().expect("Failed to load config");
 
 	let routeManager = RouteManager::new()
 		.mount(RouteType::new("/users",        get (GetUsers)))

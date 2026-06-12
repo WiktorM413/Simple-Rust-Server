@@ -5,7 +5,7 @@ pub struct Config
 	pub port:        u16
 }
 
-pub fn init() -> Result<Config, Box<dyn std::error::Error>>
+pub fn fromEnv() -> Result<Config, Box<dyn std::error::Error>>
 {
 	let config = Config{
 		databaseUrl: std::env::var("DATABASE_URL")?,
