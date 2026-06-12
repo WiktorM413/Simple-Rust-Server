@@ -1,7 +1,7 @@
 use axum::{Router};
 use tokio::net::TcpListener;
 
-use crate::{config, db, routeManager::routeType::RouteType};
+use crate::{config::{self, Config}, db, routeManager::routeType::RouteType};
 
 pub struct ConnManager
 {
@@ -11,11 +11,9 @@ pub struct ConnManager
 
 impl ConnManager
 {
-	pub async fn connect(routes: Vec<RouteType<'_>>) -> Self
+	pub async fn connect(config: &Config, routes: Vec<RouteType<'_>>) -> Self
 	{
-		let config = config::get();
-		
-		let pool = db::ConnectDb().await;
+		let pool = db::ConnectDb(config).await;
 
 		let app: Router = routes.into_iter().fold(
 			Router::new(),

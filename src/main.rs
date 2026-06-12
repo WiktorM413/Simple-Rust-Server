@@ -13,14 +13,13 @@ mod config;
 async fn main()
 {
 	dotenvy::dotenv().ok();
-	config::init().expect("Failed to load config");
+	let config = config::init().expect("Failed to load config");
 
-	let routeManager = RouteManager::from(vec![
-		RouteType::new("/users",        get(GetUsers)),
-		RouteType::new("/users/create", post(CreateUser))
-	]);
+	let routeManager = RouteManager::new()
+		.mount(RouteType::new("/users",        get (GetUsers)))
+		.mount(RouteType::new("/users/create", post(CreateUser)));
 	
-	let conn = ConnManager::connect(routeManager.intoVec()).await;
+	let conn = ConnManager::connect(&config, routeManager.intoVec()).await;
 	
 	conn.serve().await;
 }

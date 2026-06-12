@@ -14,19 +14,16 @@ impl<'a> RouteManager<'a>
 		RouteManager{routes: vec![]}
 	}
 
-	pub fn from(routes: Vec<RouteType<'a>>) -> Self
-	{
-		RouteManager{routes}
-	}
-
-	pub fn addRoute(&mut self, route: RouteType<'a>)
-	{
-		self.routes.push(route);
-	}
-
 	// Consumes self
 	pub fn intoVec(self) -> Vec<RouteType<'a>>
 	{
 		self.routes
+	}
+
+	pub fn mount(mut self, route: RouteType<'a>) -> Self
+	{
+		self.routes.push(route);
+		
+		return self;
 	}
 }
